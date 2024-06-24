@@ -34,5 +34,7 @@
    #include <stdio.h>
    void perror(const char *s)
    ```
+   perror is a function in C that helps to print custom error messages in standard error. It internally uses errno and strerror to
+   print error messages. so it is a good practice to add their repective libraries as well but not necessary when using only perror.
    
 
