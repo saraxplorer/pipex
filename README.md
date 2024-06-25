@@ -91,6 +91,7 @@ A lot of functions are used in this project. So understanding their behavior see
    If oldfd is a valid file descriptor:\
    If oldfd and newfd are the same, dup2 does nothing and simply returns newfd.\
    If oldfd and newfd are different, dup2 first closes newfd if it is open, then makes newfd a duplicate of oldfd. After duplication,
-   oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.
+   oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.The
+   reason newfd is closed before being duplicated is to ensure that it does not refer to any other file. 
 
 
