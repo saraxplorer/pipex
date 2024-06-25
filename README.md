@@ -53,4 +53,6 @@
    Value: /usr/local/bin:/usr/bin:/bin\
    This means that the PATH environment variable has a value of /usr/local/bin:/usr/bin:/bin, which is a list of directories where
    executable programs are located.
+6. Environment Variables
+   They are key-value variables stored in the operating system. Example: envp
 
