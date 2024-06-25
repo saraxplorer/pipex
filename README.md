@@ -43,4 +43,14 @@
    6 (owner) : read(4) + write (2) = 6
    4 (group) : read (4)
    4 (others): read (4)
+5. KEY-VALUE Pair\
+   A key-value pair is a fundamental data structure used to store data. Each key-value pair consists of two parts:\
+   Key: A unique identifier for a piece of data. (NAME)\
+   Value: The data associated with the key.
+   Example
+   in the context of environment variables:
+   Key: PATH\
+   Value: /usr/local/bin:/usr/bin:/bin\
+   This means that the PATH environment variable has a value of /usr/local/bin:/usr/bin:/bin, which is a list of directories where
+   executable programs are located.
 
