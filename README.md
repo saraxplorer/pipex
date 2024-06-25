@@ -39,7 +39,7 @@ A lot of functions are used in this project. So understanding their behavior see
    perror is a function in C that helps to print custom error messages in standard error. It internally uses errno and strerror to
    print error messages. so it is a good practice to add their repective libraries as well but not necessary when using only perror.
    
-4. open(argv[i], O_CREAT | O_WRONLY | O_TRUNC, 0644)\
+4. open(argv[i], O_CREAT | O_WRONLY | O_TRUNC, 0644) (from the project source code)\
    this code opens a file for writing, creates it if it doesn't exist, and clears its contents if it already exists(O_TRUNC). The new
    file (if created) will have permissions that allow the owner to read and write, while others can only read.\
    6 (owner) : read(4) + write (2) = 6
@@ -92,6 +92,11 @@ A lot of functions are used in this project. So understanding their behavior see
    If oldfd and newfd are the same, dup2 does nothing and simply returns newfd.\
    If oldfd and newfd are different, dup2 first closes newfd if it is open, then makes newfd a duplicate of oldfd. After duplication,
    oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.The
-   reason newfd is closed before being duplicated is to ensure that it does not refer to any other file. 
+   reason newfd is closed before being duplicated is to ensure that it does not refer to any other file.
+
+9. dup2(input_file, STDIN_FILENO) (from the project source code)
+   By default, input functions like scanf or read read data from standard input (stdin), which is usually connected to the
+   keyboard. The primary purpose of dup2(input_file, STDIN_FILENO) is to redirect the standard input (stdin) of the program to read
+   from input_file instead of the default.
 
 
