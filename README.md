@@ -1,4 +1,4 @@
-# Concepts
+# Concepts used in the project
 1. fork
     ```c
    #include <unistd.h>
@@ -37,4 +37,10 @@
    perror is a function in C that helps to print custom error messages in standard error. It internally uses errno and strerror to
    print error messages. so it is a good practice to add their repective libraries as well but not necessary when using only perror.
    
+4. open(argv[i], O_CREAT | O_WRONLY | O_TRUNC, 0644)\
+   this code opens a file for writing, creates it if it doesn't exist, and clears its contents if it already exists(O_TRUNC). The new
+   file (if created) will have permissions that allow the owner to read and write, while others can only read.\
+   6 (owner) : read(4) + write (2) = 6
+   4 (group) : read (4)
+   4 (others): read (4)
 
