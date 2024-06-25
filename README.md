@@ -1,4 +1,6 @@
-# Concepts used in the project
+# Concepts used in the project\
+A lot of functions are used in this project. So understanding their behavior seems important
+
 1. fork
     ```c
    #include <unistd.h>
@@ -43,7 +45,8 @@
    6 (owner) : read(4) + write (2) = 6
    4 (group) : read (4)
    4 (others): read (4)
-5. KEY-VALUE Pair\
+
+5. KEY-VALUE Pair
    A key-value pair is a fundamental data structure used to store data. Each key-value pair consists of two parts:\
    Key: A unique identifier for a piece of data. (NAME)\
    Value: The data associated with the key.
@@ -53,6 +56,41 @@
    Value: /usr/local/bin:/usr/bin:/bin\
    This means that the PATH environment variable has a value of /usr/local/bin:/usr/bin:/bin, which is a list of directories where
    executable programs are located.
+   
 6. Environment Variables\
    They are key-value variables stored in the operating system. Example: envp
+   
+7. pipe
+   ``` c
+   #include <unistd.h>
+   int pipe(int pipefd[2]);
+   ```
+   the pipe function is used to create a unidirectional communication channel, which can be used for inter-process communication
+   (IPC).A pipe is a mechanism that allows data to flow from one process to another.\
+   Parameters\
+   pipefd: This is an array of two integers. After a successful call to pipe, pipefd[0] will be the file descriptor for the read end
+   of the pipe, and pipefd[1] will be the file descriptor for the write end of the pipe.\
+   Return Value\
+   On success, pipe returns 0.\
+   On failure, pipe returns -1 and sets errno to indicate the error.
+   
+8. dup2
+   ``` c
+   #include <unistd.h>
+   int dup2(int oldfd, int newfd)
+   ```
+   The dup2 function duplicates a file descriptor, making two file descriptors refer to the same open file description.\
+   Parameters\
+   oldfd: The file descriptor to be duplicated.\
+   newfd: The file descriptor to be made a duplicate of oldfd.\
+   Return Value\
+   On success, dup2 returns newfd.\
+   On failure, it returns -1 and sets errno to indicate the error.\
+   Behavior\
+   If oldfd is not a valid file descriptor, dup2 returns -1.\
+   If oldfd is a valid file descriptor:\
+   If oldfd and newfd are the same, dup2 does nothing and simply returns newfd.\
+   If oldfd and newfd are different, dup2 first closes newfd if it is open, then makes newfd a duplicate of oldfd. After duplication,
+   oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.
+
 
