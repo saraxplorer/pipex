@@ -105,6 +105,9 @@ A lot of functions are used in this project. So understanding their behavior see
 11.  (dup2(fd[0], STDOUT_FILENO) (from the project source code)\
     The line serves the purpose of redirecting the standard output (stdout) of the current
     process to write to the pipe's read end (fd[0]) instead of the default, which is typically the terminal or console
-12. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)
-    find_path returns the index of the string in the envp array that starts with "PATH=".\ envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".
+12. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)\
+    find_path returns the index of the string in the envp array that starts with "PATH=".\
+    envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\
+    envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".\
+    ft_split("/usr/local/bin:/usr/bin:/bin", ':'): This splits the remaining string by the colon (':') character. The ft_split function is used to break the string into an array of strings, where each string is a separate path.
 
