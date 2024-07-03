@@ -121,3 +121,16 @@ A lot of functions are used in this project. So understanding their behavior see
     If execve is successful, it does not return because the current process is replaced by the new program.\
     If there is an error, it returns -1 and sets the errno variable to indicate the error.
 
+14. waitpid
+    ``` c
+    #include <sys/wait.h>
+    pid_t waitpid(pid_t pid, int *status, int options);
+    ```
+    The waitpid function allows a parent process to wait for a specific child process to change its state, which typically means the child has exited or been terminated. It can also be used to handle child processes that have been stopped (but not necessarily terminated) due to receiving a signal.\
+    Here’s a step-by-step of what waitpid does:\
+Parent Process Calls waitpid: The parent process calls waitpid and specifies which child process it wants to wait for based on the PID.\
+Waits for Child Process: The parent process is suspended (put into a waiting state) until the specified child process changes state. This change could be due to the child process terminating normally, terminating because of an unhandled signal, or being stopped.\
+Retrieves Status: When waitpid returns, it stores information about the child process's state change (e.g., exit status, termination reason) in the status parameter.\
+Continues Execution: After waitpid returns, the parent process can continue its execution, typically by analyzing the status to determine how the child process terminated or stopped.
+
+
