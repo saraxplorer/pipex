@@ -71,7 +71,8 @@ A lot of functions are used in this project. So understanding their behavior see
    the pipe function is used to create a unidirectional communication channel, which can be used for inter-process communication
    (IPC).A pipe is a mechanism that allows data to flow from one process to another.\
    Parameters\
-   pipefd: This is an array of two integers. After a successful call to pipe, pipefd[0] will be the file descriptor for the read end
+   pipefd: This is an array of two integers. After a successful call to pipe, pipefd[0] will be the file descriptor for the read
+   end
    of the pipe, and pipefd[1] will be the file descriptor for the write end of the pipe.\
    Return Value\
    On success, pipe returns 0.\
@@ -104,4 +105,6 @@ A lot of functions are used in this project. So understanding their behavior see
 12.  (dup2(fd[0], STDOUT_FILENO) (from the project source code)\
     The line serves the purpose of redirecting the standard output (stdout) of the current
     process to write to the pipe's read end (fd[0]) instead of the default, which is typically the terminal or console
+13. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)
+    find_path returns the index of the string in the envp array that starts with "PATH=".\ envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".
 
