@@ -63,7 +63,7 @@ A lot of functions are used in this project. So understanding their behavior see
 7. char **envp\
    This is an array of strings (character pointers) representing the environment variables. envp stands for "environment pointer". the pointers in envp are pointing to strings that represent key-value pairs. Each string is formatted as "KEY=VALUE"
    
-9. pipe
+8. pipe
    ``` c
    #include <unistd.h>
    int pipe(int pipefd[2]);
@@ -78,7 +78,7 @@ A lot of functions are used in this project. So understanding their behavior see
    On success, pipe returns 0.\
    On failure, pipe returns -1 and sets errno to indicate the error.
    
-10. dup2
+9. dup2\
    ``` c
    #include <unistd.h>
    int dup2(int oldfd, int newfd)
@@ -98,13 +98,13 @@ A lot of functions are used in this project. So understanding their behavior see
    oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.The
    reason newfd is closed before being duplicated is to ensure that it does not refer to any other file.
 
-11. dup2(input_file, STDIN_FILENO) (from the project source code)\
+10. dup2(input_file, STDIN_FILENO) (from the project source code)\
    By default, input functions like scanf or read read data from standard input (stdin), which is usually connected to the
    keyboard. The primary purpose of dup2(input_file, STDIN_FILENO) is to redirect the standard input (stdin) of the program to read
    from input_file instead of the default.
-12.  (dup2(fd[0], STDOUT_FILENO) (from the project source code)\
+11.  (dup2(fd[0], STDOUT_FILENO) (from the project source code)\
     The line serves the purpose of redirecting the standard output (stdout) of the current
     process to write to the pipe's read end (fd[0]) instead of the default, which is typically the terminal or console
-13. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)
+12. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)
     find_path returns the index of the string in the envp array that starts with "PATH=".\ envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".
 
