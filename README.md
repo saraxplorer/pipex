@@ -110,4 +110,14 @@ A lot of functions are used in this project. So understanding their behavior see
     envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\
     envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".\
     ft_split("/usr/local/bin:/usr/bin:/bin", ':'): This splits the remaining string by the colon (':') character. The ft_split function is used to break the string into an array of strings, where each string is a separate path.
+13. execve
+    ``` c
+    int execve(const char *pathname, char *const argv[], char *const envp[]);
+    ```
+    The execve function in C is used to execute a program. It replaces the current process with a new one, running the specified program.\
+    Parameters\
+    pathname: This is a string that specifies the path to the program you want to execute.\
+    Return Value\
+    If execve is successful, it does not return because the current process is replaced by the new program.\
+    If there is an error, it returns -1 and sets the errno variable to indicate the error.
 
