@@ -1,4 +1,4 @@
-# Concepts used in the project\
+# Concepts used in the project
 A lot of functions are used in this project. So understanding their behavior seems important
 
 1. fork
@@ -132,5 +132,36 @@ Parent Process Calls waitpid: The parent process calls waitpid and specifies whi
 Waits for Child Process: The parent process is suspended (put into a waiting state) until the specified child process changes state. This change could be due to the child process terminating normally, terminating because of an unhandled signal, or being stopped.\
 Retrieves Status: When waitpid returns, it stores information about the child process's state change (e.g., exit status, termination reason) in the status parameter.\
 Continues Execution: After waitpid returns, the parent process can continue its execution, typically by analyzing the status to determine how the child process terminated or stopped.
+# Tests for pipex
+Test Example 1: Counting Lines in a File\
+make a file with some texts in the project folder, compile and then the following:
+``` c
+$ ./pipex infile "cat" "wc -l" outfile
+```
+Now make the same exact text file in Desktop and use another terminal for the following command.
+``` c
+< infile cat | wc -l > outfile
+```
+Explanation: cat outputs the content of infile, and wc -l counts the number of lines in that content. Both outfile content should match.\
+
+Test Example 2: Counting Words in a File\
+This 
+``` c
+$ ./pipex infile "cat" "wc -w" outfile
+```
+should behave like
+``` c
+< infile cat | wc -w > outfile
+```
+cat outputs the content of infile, and wc -w counts the number of words in that content.\
+
+Test Example 3: Converting Text to Uppercase\
+``` c
+$ ./pipex infile "cat" "tr 'a-z' 'A-Z'" outfile
+```
+``` c
+< infile cat | tr 'a-z' 'A-Z' > outfile
+```
+cat outputs the content of infile, and tr 'a-z' 'A-Z' converts lowercase letters to uppercase.\
 
 
