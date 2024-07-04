@@ -133,12 +133,18 @@ Waits for Child Process: The parent process is suspended (put into a waiting sta
 Retrieves Status: When waitpid returns, it stores information about the child process's state change (e.g., exit status, termination reason) in the status parameter.\
 Continues Execution: After waitpid returns, the parent process can continue its execution, typically by analyzing the status to determine how the child process terminated or stopped.
 # Tests for pipex
+from subject:  ./pipex infile "ls -l" "wc -l" outfile
+Should behave like: < infile ls -l | wc -l > outfile
+$> ./pipex infile "grep a1" "wc -w" outfile
+Should behave like: < infile grep a1 | wc -w > outfile
+
+More:
 Test Example 1: Counting Lines in a File\
 make a file with some texts in the project folder, compile and then the following:
 ``` c
 $ ./pipex infile "cat" "wc -l" outfile
 ```
-Now make the same exact text file in Desktop and use another terminal for the following command.
+Now  use another terminal for the following command in the same folder
 ``` c
 < infile cat | wc -l > outfile
 ```
