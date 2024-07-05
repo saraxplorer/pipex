@@ -49,16 +49,17 @@ void	make_pipe(int input_file, int output_file, char *argv[], char *envp[])
 
 	if (pipe(fd) == -1)
 		exit(EXIT_FAILURE);
+	//else pipe is making a unidirectional channel between fd[0] and fd[1]
 	process1 = fork();
 	if (process1 == -1)
 		exit(EXIT_FAILURE);
 	if (process1 == 0)
-		child1(input_file, fd, argv, envp);
+		child1(input_file, fd, argv, envp);//fd has both channels
 	process2 = fork();
 	if (process2 == -1)
 		exit(EXIT_FAILURE);
 	if (process2 == 0)
-		child2(output_file, fd, argv, envp);
+		child2(output_file, fd, argv, envp);//fd has both channels
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(process1, &status, 0);
