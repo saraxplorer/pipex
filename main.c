@@ -44,8 +44,8 @@ void	make_pipe(int input_file, int output_file, char *argv[], char *envp[])
 {
 	pid_t	process1;
 	pid_t	process2;
-	int		status;
-	int		fd[2];
+	int		status;// To store termination status of child processes, which is filled by waitpid
+	int		fd[2];//// To store pipefd[0] and pipefd[1]
 
 	if (pipe(fd) == -1)
 		exit(EXIT_FAILURE);
@@ -60,12 +60,12 @@ void	make_pipe(int input_file, int output_file, char *argv[], char *envp[])
 		exit(EXIT_FAILURE);
 	if (process2 == 0)
 		child2(output_file, fd, argv, envp);//fd has both channels
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(process1, &status, 0);
-	waitpid(process2, &status, 0);
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
+	close(fd[0]);// Close the read end of the pipe in the parent
+	close(fd[1]); // Close the write end of the pipe in the parent
+	waitpid(process1, &status, 0);//./pipex waits for process1 to finish executing and fills status
+	waitpid(process2, &status, 0);//./pipex waits for process2 to finish executing and fills status
+	if (WIFEXITED(status))//checks if the child process terminated normally (i.e., by calling exit).
+		exit(WEXITSTATUS(status));//extracts the exit status (value that the child process passed to exit)of the child process
 }
 
 int	main(int argc, char **argv, char **envp)
