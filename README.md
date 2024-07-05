@@ -100,11 +100,11 @@
    oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.The
    reason newfd is closed before being duplicated is to ensure that it does not refer to any other file.
 
-11. dup2(input_file, STDIN_FILENO) (from the project source code)\
+11. dup2(input_file, STDIN_FILENO) (an example from the src)\
    By default, input functions like scanf or read read data from standard input (stdin), which is usually connected to the
    keyboard. The primary purpose of dup2(input_file, STDIN_FILENO) is to redirect the standard input (stdin) of the program to read
    from input_file instead of the default.
-12.  (dup2(fd[0], STDOUT_FILENO) (from the project source code)\
+12.  (dup2(fd[0], STDOUT_FILENO) (another example)\
     The line serves the purpose of redirecting the standard output (stdout) of the current
     process to write to the pipe's read end (fd[0]) instead of the default, which is typically the terminal or console
 13. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)\
