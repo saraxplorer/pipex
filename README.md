@@ -8,15 +8,20 @@
    pid_t fork(void);
    ```
     pid_t represents a process ID. fork creates a new process (child process) that is a duplicate of the
-   calling process (parent process). If fork is called once, there will be two processes (parent and child). If fork is called
-   twice, each process (both the parent and child from the first fork) will create a new child, resulting in a total of four
-   processes.The fork function returns a value of 0 to the child process. It returns the child process ID (PID) to the parent
+   calling process (parent process).\
+   If fork is called once, there will be two processes (parent and child).\
+   If fork is called
+   **by the first child**, each process (both the parent and child from the first fork) will create a new child, resulting in a total of four
+   processes.\
+   If fork is called twice **by the parent** we get two children, resulting in a total of 3
+   processes.\
+   The fork function returns a value of 0 to the child process. It returns the child process ID (PID) to the parent
    process.
 
-2. pid_t\
+3. pid_t\
     pid_t is a data type used in C programming on Unix-like operating systems (like Linux). It stands for "process identifier type" and is used to represent process IDs (PIDs).A process ID is a unique identifier for each running process in an operating system.pid_t is defined in the header file <sys/types.h>. but it can also be used from unistd.h.The unistd.h header file includes the definition of pid_t and provides access to getpid(), which returns the process ID of the calling process.
 
-3. access
+4. access
    ``` c
    #include <unistd.h>
    int access(const char *pathname, int mode)
@@ -35,7 +40,7 @@
    Returns 0 if the requested access is permitted.
    Returns -1 if the requested access is not permitted, and errno is set to indicate the error.
 
-4. perror
+5. perror
    ``` c
    #include <stdio.h>
    void perror(const char *s)
@@ -43,14 +48,14 @@
    perror is a function in C that helps to print custom error messages in standard error. It internally uses errno and strerror to
    print error messages. so it is a good practice to add their repective libraries as well but not necessary when using only perror.
    
-5. open(argv[i], O_CREAT | O_WRONLY | O_TRUNC, 0644) (from the project source code)\
+6. open(argv[i], O_CREAT | O_WRONLY | O_TRUNC, 0644) (from the project source code)\
    this code opens a file for writing, creates it if it doesn't exist, and clears its contents if it already exists(O_TRUNC). The new
    file (if created) will have permissions that allow the owner to read and write, while others can only read.\
    6 (owner) : read(4) + write (2) = 6
    4 (group) : read (4)
    4 (others): read (4)
 
-6. KEY-VALUE Pair
+7. KEY-VALUE Pair
    A key-value pair is a fundamental data structure used to store data. Each key-value pair consists of two parts:\
    Key: A unique identifier for a piece of data. (NAME)\
    Value: The data associated with the key.
@@ -61,10 +66,10 @@
    This means that the PATH environment variable has a value of /usr/local/bin:/usr/bin:/bin, which is a list of directories where
    executable programs are located.
    
-7. char **envp\
+8. char **envp\
    This is an array of strings (character pointers) representing the environment variables. envp stands for "environment pointer". the pointers in envp are pointing to strings that represent key-value pairs. Each string is formatted as "KEY=VALUE"
    
-8. pipe
+9. pipe
    ``` c
    #include <unistd.h>
    int pipe(int pipefd[2]);
