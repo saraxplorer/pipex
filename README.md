@@ -1,7 +1,7 @@
 # Concepts used in the project
 **-Parent process:** The parent process is the original process running the main function. Here it will be ./pipex\
 
-**How the pipe is made**
+**How the pipe is made?**
 
 In my source code:
 
