@@ -67,9 +67,18 @@
    executable programs are located.
    
 8. char **envp\
-   This is an array of strings (character pointers) representing the environment variables. envp stands for "environment pointer". the pointers in envp are pointing to strings that represent key-value pairs. Each string is formatted as "KEY=VALUE"
+   This is an array of strings (character pointers) representing the environment variables. envp stands for "environment pointer". the pointers in envp are pointing to strings that represent key-value pairs. Each string is formatted as "KEY=VALUE"\
+**Understanding envp**\
+What are environment variables?\
+Environment variables are key-value pairs that define the environment in which a process runs. They can contain information such as paths, user preferences, or system configurations.\
+Where do envp variables come from?\
+When your program starts execution, the operating system initializes the execution environment, including environment variables.
+envp is a pointer to an array of strings (char **), where each string represents an environment variable in the format "NAME=value".\
+Accessing envp in your program:\
+Even though you may not explicitly pass environment variables when running your program, envp is still provided by the operating system.
+You can use envp within your program to access and manipulate environment variables if needed.
    
-9. pipe
+10. pipe
    ``` c
    #include <unistd.h>
    int pipe(int pipefd[2]);
@@ -82,7 +91,7 @@
    On success, pipe returns 0.\
    On failure, pipe returns -1 and sets errno to indicate the error.
    
-10. dup2\
+11. dup2\
    ``` c
    #include <unistd.h>
    int dup2(int oldfd, int newfd)
