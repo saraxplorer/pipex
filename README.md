@@ -122,7 +122,7 @@ You can use envp within your program to access and manipulate environment variab
     find_path returns the index of the string in the envp array that starts with "PATH=".\
     envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\
     envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".\
-    ft_split("/usr/local/bin:/usr/bin:/bin", ':'): This splits the remaining string by the colon (':') character. The ft_split function is used to break the string into an array of strings, where each string is a separate path.
+    ft_split("/usr/local/bin:/usr/bin:/bin", ':'): This splits the remaining string by the colon (':') character. The ft_split function is used to break the string into an array of strings, where each string is a separate path. It is split into individual directory paths because PATH contains directories separated by :
 14. execve
     ``` c
     int execve(const char *pathname, char *const argv[], char *const envp[]);
