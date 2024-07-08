@@ -127,7 +127,9 @@ You can use envp within your program to access and manipulate environment variab
     ``` c
     int execve(const char *pathname, char *const argv[], char *const envp[]);
     ```
-    The execve function in C is used to execute a program. It replaces the current process with a new one, running the specified program.\
+    execve() executes the program referred to by 'pathname'.  This
+       causes the program that is currently being run by the calling
+       process(parent) to be replaced with a new program(child).\
     Parameters\
     pathname: This is a string that specifies the path to the program you want to execute.\
     Return Value\
