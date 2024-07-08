@@ -69,14 +69,11 @@
    #include <unistd.h>
    int pipe(int pipefd[2]);
    ```
-   the pipe function is used to create a unidirectional communication channel, which can be used for inter-process communication
-   (IPC).A pipe is a mechanism that allows data to flow from one process to another.\
-   Parameters\
-   pipefd: This is an array of two integers. After a successful call to pipe, pipefd[0] will be the file descriptor for the read
-   end
-   of the pipe, and pipefd[1] will be the file descriptor for the write end of the pipe.\
+   the pipe function is used to create a unidirectional communication channel. A pipe is a mechanism that allows data to flow from one process to another. pipe function takes two fd s as parameters and makes one the writing end and another the reading end\
+   **Parameters**\
+   **pipefd**: This is an array of two integers. After a successful call to pipe, pipefd[0] will be the file descriptor for the read end of the pipe, and pipefd[1] will be the file descriptor for the write end of the pipe.\
    To clarify, pipefd[2] does not imply three integers. Instead, it declares an array with exactly **two** integer slots. The members are pipefd[0] and pipefd[1].\
-   Return Value\
+   **Return Value**\
    On success, pipe returns 0.\
    On failure, pipe returns -1 and sets errno to indicate the error.
    
