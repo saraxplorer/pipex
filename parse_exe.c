@@ -95,6 +95,8 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 	if (command[0] == '/')
 	{
 		command = ft_strrchr(command, '/');//find the last /
+		//ft_strrchr finds the last occurrence of '/' in the command string and sets command to point to that position. 
+		//This means command now points to the last part of the path, including the '/'.
 		if (ft_strrchr(command, '/') == NULL)// if / is NULL! no sense
 			return (0);//stop?return to split_arg
 	}
@@ -110,12 +112,11 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 			free_str(array_of_paths);
 			return (valid_path);// we return valid path
 		}
-		//if not found just free??
-		free(valid_path);
+		free(valid_path);//free invalid path
 		i++;
 	}
 	free_str(array_of_paths);
-	return (0);
+	return (0);//return 0 if no valid path is found
 }
 
 char	*parse_and_execute(char *argv, char **envp)
