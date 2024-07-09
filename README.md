@@ -26,6 +26,32 @@ write2pipe_4m_input runs command1 and sends its output into a pipe.
 write2out_4m_pipe runs command2 using the output from the pipe.
 make_pipe sets up the pipe and ensures that these two processes work together to achieve the pipeline effect.
 
+**PATHS**
+An absolute path and a relative path are terms used to describe the location of a file or directory in a file system:
+
+Absolute Path:
+
+Defines the location of a file or directory starting from the root of the file system.
+Always begins with the root directory marker (/ on Unix-like systems or a drive letter like C:\ on Windows).
+Provides a complete path from the root to the specific file or directory.
+Example (Unix-like): /home/user/documents/file.txt\
+Absolute Path Example: /home/user/bin/ls\
+
+
+Relative Path:
+
+Defines the location of a file or directory relative to the current working directory or another specified directory.
+Does not begin with the root directory marker.
+Used when referring to files or directories within the current directory or its subdirectories.
+Example: documents/file.txt\
+Example: ls\
+
+Key Differences:
+
+Starting Point: Absolute paths start from the root of the file system, while relative paths start from the current working directory.
+Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
+Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
+
 1. fork
     ```c
    #include <unistd.h>
