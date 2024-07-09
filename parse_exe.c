@@ -54,8 +54,20 @@ int	find_path(char **envp)
 			break ;
 		i++;
 	}
-	return (i);//Finds and returns the index of the PATH variable in the envp array.
+	return (i);//Finds and returns the line number where PATH is present.
 }
+//Let's say envp is:
+//char *envp[] = {
+//     "USER=john",
+//     "HOME=/home/john",
+//     "PATH=/usr/bin:/bin",
+//     NULL
+// };On the first iteration, i is 0, and envp[0] is "USER=john" which doesn't match "PATH=", so i is incremented.
+// On the second iteration, i is 1, and envp[1] is "HOME=/home/john" which doesn't match "PATH=", so i is incremented.
+// On the third iteration, i is 2, and envp[2] is "PATH=/usr/bin:/bin" which matches "PATH=", so the loop breaks.
+// The function then returns i, which is 2.
+// So, in this example, find_path(envp) would return 2.
+
 
 char	**split_command(char *argv)
 {
