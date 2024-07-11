@@ -52,7 +52,7 @@ Starting Point: Absolute paths start from the root of the file system, while rel
 Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
 Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
 
-**Exit Status Codes**
+**Exit Status Codes**\
 *exit(EXIT_SUCCESS):*
 
 Indicates successful execution.\
