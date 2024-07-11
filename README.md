@@ -53,18 +53,18 @@ Usage: Absolute paths are useful when you need to specify an exact location in t
 Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
 
 **Exit Status Codes**\
-*exit(EXIT_SUCCESS):*
 
+*exit(EXIT_SUCCESS):*\
 Indicates successful execution.\
 Equivalent to exit(0).\
-*exit(EXIT_FAILURE):*
 
+*exit(EXIT_FAILURE):*
 Indicates an error occurred.\
 Equivalent to exit(1).\
-*exit(127):*
 
-Typically used to indicate "command not found" in shell scripts.
-In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.
+*exit(127):*
+Typically used to indicate "command not found" in shell scripts.\
+In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.\
 
 1. fork
     ```c
