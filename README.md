@@ -52,6 +52,20 @@ Starting Point: Absolute paths start from the root of the file system, while rel
 Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
 Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
 
+**Exit Status Codes**
+*exit(EXIT_SUCCESS):*
+
+Indicates successful execution.\
+Equivalent to exit(0).\
+*exit(EXIT_FAILURE):*
+
+Indicates an error occurred.\
+Equivalent to exit(1).\
+*exit(127):*
+
+Typically used to indicate "command not found" in shell scripts.
+In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.
+
 1. fork
     ```c
    #include <unistd.h>
