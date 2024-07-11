@@ -35,7 +35,7 @@ Defines the location of a file or directory starting from the root of the file s
 Always begins with the root directory marker (/ on Unix-like systems or a drive letter like C:\ on Windows).
 Provides a complete path from the root to the specific file or directory.
 Example (Unix-like): /home/user/documents/file.txt\
-Absolute Path Example: /home/user/bin/ls\
+Absolute Path Example: /home/user/bin/ls
 
 
 Relative Path:
@@ -58,11 +58,11 @@ Understanding these distinctions helps in navigating and referencing files and d
 Indicates successful execution.\
 Equivalent to exit(0).\
 
-*exit(EXIT_FAILURE):*
+*exit(EXIT_FAILURE):*\
 Indicates an error occurred.\
 Equivalent to exit(1).
 
-*exit(127):*
+*exit(127):*\
 Typically used to indicate "command not found" in shell scripts.\
 In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.
 
