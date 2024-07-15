@@ -6,7 +6,7 @@
 #    By: rshaheen <rshaheen@student.42.fr>            +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/06/24 16:44:43 by rshaheen      #+#    #+#                  #
-#    Updated: 2024/07/03 16:32:11 by rshaheen      ########   odam.nl          #
+#    Updated: 2024/07/15 15:19:06 by rshaheen      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,12 @@ NAME = pipex
 
 LIBFT = libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror #g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 OBJ_DIR = obj
 
 SOURCE = main.c \
-		split.c \
+		parse_exe.c \
 		errors_free.c
 
 OBJECTS = $(SOURCE:%.c=$(OBJ_DIR)/%.o)

@@ -6,84 +6,71 @@
 /*   By: rshaheen <rshaheen@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 16:44:59 by rshaheen      #+#    #+#                 */
-/*   Updated: 2024/07/04 16:38:40 by rshaheen      ########   odam.nl         */
+/*   Updated: 2024/07/15 13:23:56 by rshaheen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_exit(char *str)
+void	write2pipe_4m_input(int input, int pipefd[], char *argv[], char *envp[])
 {
-	ft_putendl_fd(str, 2);
-	exit(EXIT_FAILURE);
+	if (dup2(input, STDIN_FILENO) == -1)
+		exit(EXIT_FAILURE);
+	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+		exit(EXIT_FAILURE);
+	close(pipefd[0]);
+	close(input);
+	parse_and_execute(argv[2], envp);
 }
 
-void	child1(int input_file, int fd[], char *argv[], char *envp[])
+void	write2out_4m_pipe(int output, int pipefd[], char *argv[], char *envp[])
 {
-	if (dup2(input_file, STDIN_FILENO) == -1)
+	if (dup2(output, STDOUT_FILENO) == -1)
 		exit(EXIT_FAILURE);
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		exit(EXIT_FAILURE);
-	close(fd[0]);
-	close(input_file);
-	split_arg(argv[2], envp);
+	close(pipefd[1]);
+	close(output);
+	parse_and_execute(argv[3], envp);
 }
 
-void	child2(int output_file, int fd[], char *argv[], char *envp[])
+void	make_pipe(int input_fd, int output_fd, char *argv[], char *envp[])
 {
-	if (dup2(output_file, STDOUT_FILENO) == -1)
-		exit(EXIT_FAILURE);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		exit(EXIT_FAILURE);
-	close(fd[1]);
-	close(output_file);
-	split_arg(argv[3], envp);
-}
+	pid_t	child1;
+	pid_t	child2;
+	int		status;
+	int		pipefd[2];
 
-void	make_pipe(int input_file, int output_file, char *argv[], char *envp[])
-{
-	pid_t	process1;
-	pid_t	process2;
-	int		status;// To store termination status of child processes, which is filled by waitpid
-	int		fd[2];//// To store pipefd[0] and pipefd[1]
-
-	if (pipe(fd) == -1)
+	if (pipe(pipefd) == -1)
 		exit(EXIT_FAILURE);
-	//else pipe is making a unidirectional channel between fd[0] and fd[1]
-	process1 = fork();
-	if (process1 == -1)
+	child1 = fork();
+	if (child1 == -1)
 		exit(EXIT_FAILURE);
-	if (process1 == 0)
-		child1(input_file, fd, argv, envp);//fd has both channels
-	process2 = fork();
-	if (process2 == -1)
+	if (child1 == 0)
+		write2pipe_4m_input(input_fd, pipefd, argv, envp);
+	child2 = fork();
+	if (child2 == -1)
 		exit(EXIT_FAILURE);
-	if (process2 == 0)
-		child2(output_file, fd, argv, envp);//fd has both channels
-	close(fd[0]);// Close the read end of the pipe in the parent
-	close(fd[1]); // Close the write end of the pipe in the parent
-	waitpid(process1, &status, 0);//./pipex waits for process1 to finish executing and fills status
-	waitpid(process2, &status, 0);//./pipex waits for process2 to finish executing and fills status
-	if (WIFEXITED(status))//checks if the child process terminated normally (i.e., by calling exit).
-		exit(WEXITSTATUS(status));//extracts the exit status (value that the child process passed to exit)of the child process
+	if (child2 == 0)
+		write2out_4m_pipe(output_fd, pipefd, argv, envp);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	waitpid(child1, &status, 0);
+	waitpid(child2, &status, 0);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	input_file;
-	int	output_file;
+	int	input_fd;
+	int	output_fd;
 
 	if (argc != 5)
-		error_exit("Error: incorrect number of arg");
-	if (access(argv[1], F_OK == -1))
-		error_exit("Error: input file does not exist");
-	input_file = open(argv[1], O_RDONLY);
-	output_file = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (access(argv[1], R_OK == -1) || access(argv[argc - 1], W_OK == -1))
-		error_exit("Error: permission denied");
-	if (input_file < 0 || output_file < 0)
-		error_exit("Error opening file");
-	make_pipe(input_file, output_file, argv, envp);
-	// close(input_file);
-	// close(output_file);
+		error_exit("Error: incorrect number of arg\n");
+	input_fd = open(argv[1], O_RDONLY);
+	output_fd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (input_fd < 0 || output_fd < 0)
+		check_file_permission(argc, argv);
+	make_pipe(input_fd, output_fd, argv, envp);
 }
