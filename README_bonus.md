@@ -1,5 +1,6 @@
 # Concepts for Bonus
 **What if we do not want to use a separate input file and just write right from the command line?**
+
 The solution to this is a *here_doc* with a limiter. This is how it looks like
 ```
 #!/bin/bash
