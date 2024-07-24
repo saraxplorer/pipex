@@ -12,34 +12,6 @@
 
 #include "pipex.h"
 
-// char	*make_dbl_quotes(char *argv, int sngl_qt_open, int dbl_qt_open, int i)
-// {
-// 	while (argv[i])
-// 	{
-// 		if (argv[i] == ' ' && sngl_qt_open == 0 && dbl_qt_open == 0)
-// 			argv[i] = '"';
-// 		else if (argv[i] == 39 && sngl_qt_open == 0 && dbl_qt_open == 0)
-// 		{
-// 			argv[i] = '"';
-// 			sngl_qt_open = 1;
-// 		}
-// 		else if (argv[i] == 39 && sngl_qt_open == 1 && dbl_qt_open == 0)
-// 		{
-// 			argv[i] = '"';
-// 			sngl_qt_open = 0;
-// 		}
-// 		else if (argv[i] == '"' && dbl_qt_open == 0)
-// 			dbl_qt_open = 1;
-// 		else if (argv[i] == '"' && dbl_qt_open == 1)
-// 			dbl_qt_open = 0;
-// 		else if (argv[i] == 39 && dbl_qt_open == 1)
-// 			error_exit("ok");
-// 			//cmd_err(*ft_split(argv, '"'), 2);
-// 		i++;
-// 	}
-// 	return (argv);
-// }
-
 int	find_path(char **envp)
 {
 	int	i;
@@ -57,22 +29,14 @@ int	find_path(char **envp)
 char	**split_command(char *argv)
 {
 	char	**array_of_commands;
-	int		i;
-	int		sngl_qt_open;
-	int		dbl_qt_open;
 
 	(void)argv;
-	i = 0;
-	sngl_qt_open = 0;
-	dbl_qt_open = 0;
-	//argv = make_dbl_quotes(argv, sngl_qt_open, dbl_qt_open, i);
 	array_of_commands = ft_split(argv, ' ');
 	if (array_of_commands == NULL)
 	{
 		free_str(array_of_commands);
 		exit (EXIT_FAILURE);
 	}
-
 	return (array_of_commands);
 }
 
