@@ -45,7 +45,7 @@ Defines the location of a file or directory relative to the current working dire
 Does not begin with the root directory marker.
 Used when referring to files or directories within the current directory or its subdirectories.
 Example: documents/file.txt\
-Example: ls\
+Example: ls
 
 Key Differences:
 
