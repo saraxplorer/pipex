@@ -15,7 +15,7 @@ Writes the output of the first command to the write end of the pipe (pipefd[1]).
 
 Executes the second command with argv[3].\
 Takes input from the read end of the pipe (pipefd[0]).\
-Writes the output of the second command to the specified output file.\
+Writes the output of the second command to the specified output file.
 
 Together, these functions set up a pipeline where the output of the first command (argv[2]) is passed through the pipe to become the input of the second command (argv[3]). This allows you to chain commands together in a manner similar to how pipes work in a shell.
 
