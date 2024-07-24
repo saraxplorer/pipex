@@ -30,7 +30,6 @@ char	**split_command(char *argv)
 {
 	char	**array_of_cmd;
 
-	(void)argv;
 	array_of_cmd = ft_split(argv, ' ');
 	if (array_of_cmd == NULL)
 	{
