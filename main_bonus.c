@@ -21,6 +21,8 @@ int	**make_pipes(int argc)
 	number_pipes = argc - 4;//remove program name, input and output files, and one arg for pipe
 	//To connect n commands, you need n - 1 pipes, reduce one arg
 	array_fd = (int **)malloc((number_pipes) * sizeof(int *));
+	if (array_fd == NULL)
+		return (NULL);
 	i = 0;
 	while (i < number_pipes)
 	{
@@ -54,7 +56,7 @@ void	free_fd(int **array_fd, int argc)
 	free(array_fd);
 }
 
-int	execute_pipe(t_pipexb pipex)
+int	fork_pipe(t_pipexb pipex)
 {
 	pid_t	process;
 	int		command_index;
@@ -82,6 +84,14 @@ int	execute_pipe(t_pipexb pipex)
 	return (0);
 }
 
+void	handle_cleanup(int **array_fd, t_pipexb pipex)
+{
+	close(pipex.input_fd);
+	close(pipex.out_fd);
+	free_fd(array_fd, pipex.argc);
+	error_exit("cannot make pipe/fork");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipexb	pipex;
@@ -95,15 +105,16 @@ int	main(int argc, char **argv, char **envp)
 		pipex.input_fd = open(argv[1], O_RDONLY);
 		pipex.out_fd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (pipex.input_fd < 0 || pipex.out_fd < 0)
-			check_file_permission(argc, argv);
+			diagnose_error_bonus(argc, argv);
 		pipex.argc = argc;
 		pipex.argv = argv;
 		pipex.envp = envp;
 		pipex.index = 0;
 		pipex.array_fd = make_pipes(argc);
 		if (pipex.array_fd == NULL)
-			exit(EXIT_FAILURE);
-		if (execute_pipe(pipex) == 1)
-			exit(EXIT_FAILURE);
+			handle_cleanup(pipex.array_fd, pipex);
+		if (fork_pipe(pipex) == 1)
+			handle_cleanup(pipex.array_fd, pipex);
 	}
 }
+
