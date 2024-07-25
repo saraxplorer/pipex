@@ -6,46 +6,44 @@
 /*   By: rshaheen <rshaheen@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/18 17:54:20 by rshaheen      #+#    #+#                 */
-/*   Updated: 2024/07/18 17:58:18 by rshaheen      ########   odam.nl         */
+/*   Updated: 2024/07/25 18:33:09 by rshaheen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	find_path(char **envp)
+char	**split_command(char *command)
 {
-	int	i;
+	char	**cmd_parts_array;
 
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
-		i++;
-	}
-	return (i);
+	cmd_parts_array = ft_split(command, ' ');
+	if (cmd_parts_array == NULL)
+		exit (EXIT_FAILURE);
+	return (cmd_parts_array);
 }
 
-char	**split_command(char *argv)
+int	find_path(char **envp)
 {
-	char	**array_of_commands;
-	int		i;
-	int		sngl_qt_open;
-	int		dbl_qt_open;
+	int	line_num;
 
-	(void)argv;
-	i = 0;
-	sngl_qt_open = 0;
-	dbl_qt_open = 0;
-	//argv = make_dbl_quotes(argv, sngl_qt_open, dbl_qt_open, i);
-	array_of_commands = ft_split(argv, ' ');
-	if (array_of_commands == NULL)
+	line_num = 0;
+	while (envp[line_num])
 	{
-		free_str(array_of_commands);
-		exit (EXIT_FAILURE);
+		if (ft_strncmp(envp[line_num], "PATH=", 5) == 0)
+			break ;
+		line_num++;
 	}
+	return (line_num);
+}
 
-	return (array_of_commands);
+char	*is_absolute_path(char *command)
+{
+	if (command[0] == '/')
+	{
+		command = ft_strrchr(command, '/');
+		return (command + 1);
+	}
+	return (command);
 }
 
 char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
@@ -53,19 +51,15 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 	char	*valid_path;
 	char	*temp;
 
-	if (command[0] == '/')
-	{
-		command = ft_strrchr(command, '/');
-		if (ft_strrchr(command, '/') == NULL)
-			return (0);
-	}
 	while (array_of_paths[i])
 	{
 		temp = ft_strjoin(array_of_paths[i], "/");
+		if (!temp)
+			return (NULL);
 		valid_path = ft_strjoin(temp, command);
 		free (temp);
 		if (valid_path == NULL)
-			exit (127);
+			return (NULL);
 		if (access(valid_path, F_OK | X_OK) == 0)
 		{
 			free_str(array_of_paths);
@@ -78,26 +72,30 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 	return (0);
 }
 
-char	*parse_and_execute(char *argv, char **envp)
+char	*parse_and_execute(char *command, char **envp)
 {
-	char	**array_of_commands;
-	char	*path_and_command;
+	char	**cmd_parts_array;
+	char	*path_and_cmd;
 	char	**array_of_paths;
-	int		i;
+	char	*base_command;
 
-	i = 0;
-	if (*envp == NULL)
-		exit (127);
-	array_of_commands = split_command(argv);
+	cmd_parts_array = split_command(command);
 	array_of_paths = ft_split(envp[find_path(envp)] + 5, ':');
 	if (array_of_paths == NULL)
-		cmd_not_found(array_of_commands);//?
-	path_and_command = join_cmd_to_path(array_of_commands[0], array_of_paths, 0);
-	if (!path_and_command)
-		cmd_not_found(array_of_commands);
-	if (path_and_command != NULL && array_of_commands != NULL)
-		execve(path_and_command, array_of_commands, envp);
-	free(path_and_command);
-	free_str(array_of_commands);
+	{
+		free_str(cmd_parts_array);
+		exit (EXIT_FAILURE);
+	}
+	base_command = is_absolute_path(cmd_parts_array[0]);
+	path_and_cmd = join_cmd_to_path(base_command, array_of_paths, 0);
+	if (!path_and_cmd)
+	{
+		cmd_not_found(cmd_parts_array);
+		free_str(array_of_paths);
+	}
+	if (path_and_cmd != NULL && cmd_parts_array != NULL)
+		execve(path_and_cmd, cmd_parts_array, envp);
+	free(path_and_cmd);
+	free_str(cmd_parts_array);
 	exit(EXIT_FAILURE);
 }
