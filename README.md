@@ -156,7 +156,7 @@ You can use envp within your program to access and manipulate environment variab
    On success, pipe returns 0.\
    On failure, pipe returns -1 and sets errno to indicate the error.
    
-11. dup2\
+11. **dup2**
    ``` c
    #include <unistd.h>
    int dup2(int oldfd, int newfd)
@@ -176,19 +176,27 @@ You can use envp within your program to access and manipulate environment variab
    oldfd and newfd refer to the same open file description, meaning they share the same file offset, file status flags, etc.The
    reason newfd is closed before being duplicated is to ensure that it does not refer to any other file.
 
-11. dup2(input_file, STDIN_FILENO) (an example from the src)\
+11. **dup2(input_file, STDIN_FILENO) (an example from the src)**\
    By default, input functions like scanf or read read data from standard input (stdin), which is usually connected to the
    keyboard. The primary purpose of dup2(input_file, STDIN_FILENO) is to redirect the standard input (stdin) of the program to read
    from input_file instead of the default.
-12.  (dup2(fd[0], STDOUT_FILENO) (another example)\
+12.  **(dup2(fd[0], STDOUT_FILENO) (another example)**\
     The line serves the purpose of redirecting the standard output (stdout) of the current
     process to write to the pipe's read end (fd[0]) instead of the default, which is typically the terminal or console
-13. ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)\
+13. **ft_split(envp[find_path(envp)] + 5, ':')(from the project source code)**\
     find_path returns the index of the string in the envp array that starts with "PATH=".\
     envp[find_path(envp)]: This accesses the string in the envp array that starts with "PATH=".It is something like "PATH=/usr/local/bin:/usr/bin:/bin".\
     envp[find_path(envp)] + 5: This skips the first 5 characters ("PATH=") of the string, leaving just the actual paths: "/usr/local/bin:/usr/bin:/bin".\
     ft_split("/usr/local/bin:/usr/bin:/bin", ':'): This splits the remaining string by the colon (':') character. The ft_split function is used to break the string into an array of strings, where each string is a separate path. It is split into individual directory paths because PATH contains directories separated by :
-14. execve
+
+14. **Splitting the PATH Variable**\
+Function: ft_split(envp[3] + 5, ':')
+
+Input: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Operation: Use ft_split to split the PATH variable by ':'.
+Output: array_of_paths (array of PATH directories)
+
+15. **execve**\
     ``` c
     int execve(const char *pathname, char *const argv[], char *const envp[]);
     ```
@@ -201,7 +209,7 @@ You can use envp within your program to access and manipulate environment variab
     If execve is successful, it does not return because the current process is replaced by the new program.\
     If there is an error, it returns -1 and sets the errno variable to indicate the error.
 
-15. waitpid
+16. **waitpid**
     ``` c
     #include <sys/wait.h>
     pid_t waitpid(pid_t pid, int *status, int options);
@@ -212,7 +220,7 @@ Parent Process Calls waitpid: The parent process calls waitpid and specifies whi
 Waits for Child Process: The parent process is suspended (put into a waiting state) until the specified child process changes state. This change could be due to the child process terminating normally, terminating because of an unhandled signal, or being stopped.\
 Retrieves Status: When waitpid returns, it stores information about the child process's state change (e.g., exit status, termination reason) in the status parameter.\
 Continues Execution: After waitpid returns, the parent process can continue its execution, typically by analyzing the status to determine how the child process terminated or stopped.\
-WIFEXITED(status)\
+17. **WIFEXITED(status)**\
 Purpose: This macro checks if the child process terminated normally (i.e., by calling exit or returning from the main function).\
 Usage: It takes the status variable (which is filled by waitpid) as an argument and returns a non-zero value (true) if the child process terminated normally.\
 Example: If the child process called exit(0);, then WIFEXITED(status) would be true.\
