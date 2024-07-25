@@ -238,7 +238,7 @@ access("/usr/bin/ls", F_OK | X_OK) => 0 (found and executable)
 Output: "/usr/bin/ls"
 
 
-15. **execve**\
+15. **execve**
     ``` c
     int execve(const char *pathname, char *const argv[], char *const envp[]);
     ```
