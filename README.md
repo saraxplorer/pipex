@@ -301,7 +301,10 @@ Output: "/usr/bin/ls"
     If execve is successful, it does not return because the current process is replaced by the new program.\
     If there is an error, it returns -1 and sets the errno variable to indicate the error.
 
-16. **waitpid**
+   **Important after using execve or if it fails**
+    execve replaces the current process image with a new process image. If execve succeeds, the current process is replaced and should not return. Therefore, **any code after execve (in the same block) will ONLY execute if execve fails.**
+
+17. **waitpid**
     ``` c
     #include <sys/wait.h>
     pid_t waitpid(pid_t pid, int *status, int options);
@@ -312,7 +315,7 @@ Parent Process Calls waitpid: The parent process calls waitpid and specifies whi
 Waits for Child Process: The parent process is suspended (put into a waiting state) until the specified child process changes state. This change could be due to the child process terminating normally, terminating because of an unhandled signal, or being stopped.\
 Retrieves Status: When waitpid returns, it stores information about the child process's state change (e.g., exit status, termination reason) in the status parameter.\
 Continues Execution: After waitpid returns, the parent process can continue its execution, typically by analyzing the status to determine how the child process terminated or stopped.\
-17. **WIFEXITED(status)**\
+18. **WIFEXITED(status)**\
 Purpose: This macro checks if the child process terminated normally (i.e., by calling exit or returning from the main function).\
 Usage: It takes the status variable (which is filled by waitpid) as an argument and returns a non-zero value (true) if the child process terminated normally.\
 Example: If the child process called exit(0);, then WIFEXITED(status) would be true.\
