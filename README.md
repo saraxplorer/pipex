@@ -53,6 +53,40 @@ Starting Point: Absolute paths start from the root of the file system, while rel
 Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
 Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
 
+ **We need this for parsing the envp**
+
+This function helps locate an executable command in a list of directories, even if the command is provided as an absolute path.
+
+### Example Scenario ### Visual Summary
+
+**Command**: `/usr/bin/ls`  
+**Array of Paths**: `["/bin", "/usr/bin", "/usr/local/bin"]`
+
+### Step-by-Step Explanation
+
+1. **Check if Command is an Absolute Path**:
+   - The function first checks if the command starts with `/`, indicating it's an absolute path.
+   - For `/usr/bin/ls`, it isolates the command name by extracting the part after the last `/`.
+   - **Result**: `command` becomes `/ls`.
+
+2. **Construct Potential Paths**:
+   - The function iterates through each directory in the `array_of_paths` and constructs possible paths by combining the directory with the isolated command name.
+   - Example construction:
+     - For `/bin`, it creates `/bin/ls`.
+     - For `/usr/bin`, it creates `/usr/bin/ls`.
+     - For `/usr/local/bin`, it creates `/usr/local/bin/ls`.
+
+3. **Check Each Path**:
+   - Each constructed path is checked to see if it exists and is executable.
+   - If `/usr/bin/ls` exists and is executable, this path is returned.
+
+4. **Handle Allocation Failures**:
+   - If memory allocation fails at any point, the function frees any allocated memory and returns `NULL`.
+
+
+
+
+
 **Exit Status Codes**
 
 *exit(EXIT_SUCCESS):*\
