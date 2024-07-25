@@ -195,6 +195,48 @@ Function: ft_split(envp[3] + 5, ':')
 Input: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Operation: Use ft_split to split the PATH variable by ':'.
 Output: array_of_paths (array of PATH directories)
+``` c
+array_of_paths = {
+    "/usr/local/sbin",
+    "/usr/local/bin",
+    "/usr/sbin",
+    "/usr/bin",
+    "/sbin",
+    "/bin",
+    NULL
+}
+```
+14. 1. **Joining Command to PATH and Finding Valid Path**\
+Function: join_cmd_to_path(array_of_cmd[0], array_of_paths, 0)
+
+Input: "ls", array_of_paths, 0
+Operation:
+Loop through array_of_paths and join each directory with the command.
+Check if the joined path is valid (exists and executable).
+Let's go through the loop:
+
+First Iteration: i = 0
+
+temp = ft_strjoin("/usr/local/sbin", "/") => "/usr/local/sbin/"
+valid_path = ft_strjoin(temp, "ls") => "/usr/local/sbin/ls"
+access("/usr/local/sbin/ls", F_OK | X_OK) => -1 (not found or not executable)
+Second Iteration: i = 1
+
+temp = ft_strjoin("/usr/local/bin", "/") => "/usr/local/bin/"
+valid_path = ft_strjoin(temp, "ls") => "/usr/local/bin/ls"
+access("/usr/local/bin/ls", F_OK | X_OK) => -1 (not found or not executable)
+Third Iteration: i = 2
+
+temp = ft_strjoin("/usr/sbin", "/") => "/usr/sbin/"
+valid_path = ft_strjoin(temp, "ls") => "/usr/sbin/ls"
+access("/usr/sbin/ls", F_OK | X_OK) => -1 (not found or not executable)
+Fourth Iteration: i = 3
+
+temp = ft_strjoin("/usr/bin", "/") => "/usr/bin/"
+valid_path = ft_strjoin(temp, "ls") => "/usr/bin/ls"
+access("/usr/bin/ls", F_OK | X_OK) => 0 (found and executable)
+Output: "/usr/bin/ls"
+
 
 15. **execve**\
     ``` c
