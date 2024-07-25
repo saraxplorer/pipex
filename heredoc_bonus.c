@@ -44,6 +44,8 @@ void	read_stdin(t_pipexb pipex)
 
 	limiter = pipex.argv[2];
 	line = get_next_line(0);
+	if (line == NULL)
+		error_exit("Initial read failed");
 	str = remove_newline(line, limiter);
 	while (line != NULL && ft_strncmp(str, limiter, ft_strlen(limiter)) != 0)
 	{
@@ -54,7 +56,7 @@ void	read_stdin(t_pipexb pipex)
 		free_stdin(line, str);
 		line = get_next_line(0);
 		if (line == NULL)
-			break ;
+			error_exit("subsequent read failed");
 		str = remove_newline(line, limiter);
 	}
 	if (line != NULL && str != NULL)
