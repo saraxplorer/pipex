@@ -145,7 +145,7 @@ You can use envp within your program to access and manipulate environment variab
 
 This is what it looks like:
 ``` c
-char *envp[] = {
+char **envp = {
     "SHELL=/bin/bash",
     "USER=johndoe",
     "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
