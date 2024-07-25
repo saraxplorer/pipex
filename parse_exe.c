@@ -6,7 +6,7 @@
 /*   By: rshaheen <rshaheen@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 18:58:57 by rshaheen      #+#    #+#                 */
-/*   Updated: 2024/07/24 17:14:27 by rshaheen      ########   odam.nl         */
+/*   Updated: 2024/07/25 17:47:21 by rshaheen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,24 @@ int	find_path(char **envp)
 	return (line_num);
 }
 
-char	**split_command(char *argv)
+char	**split_command(char *command)
 {
-	char	**array_of_cmd;
+	char	**cmd_parts_array;
 
-	array_of_cmd = ft_split(argv, ' ');
-	if (array_of_cmd == NULL)
-	{
-		free_str(array_of_cmd);
+	cmd_parts_array = ft_split(command, ' ');
+	if (cmd_parts_array == NULL)
 		exit (EXIT_FAILURE);
+	return (cmd_parts_array);
+}
+
+char	*is_absolute_path(char *command)
+{
+	if (command[0] == '/')//if it is an absolute path
+	{
+		command = ft_strrchr(command, '/');// Find the last slash and return the part after it
+		return (command + 1);
 	}
-	return (array_of_cmd);
+	return (command);
 }
 
 char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
@@ -44,22 +51,19 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 	char	*valid_path;
 	char	*temp;
 
-	if (command[0] == '/')
-	{
-		command = ft_strrchr(command, '/');
-		if (ft_strrchr(command, '/') == NULL)
-			return (0);
-	}
 	while (array_of_paths[i])
 	{
 		temp = ft_strjoin(array_of_paths[i], "/");
 		if (!temp)
-			exit (EXIT_FAILURE);
+			return (NULL);
 		valid_path = ft_strjoin(temp, command);
-		free (temp);
+		free (temp);//free temp after using it
 		if (valid_path == NULL)
+		{
+			free_str(array_of_paths);
 			exit (127);
-		if (access(valid_path, F_OK | X_OK) == 0)
+		}
+		if (access(valid_path, F_OK | X_OK) == 0)// Check if 'valid_path' exists and is executable
 		{
 			free_str(array_of_paths);
 			return (valid_path);
@@ -71,25 +75,30 @@ char	*join_cmd_to_path(char *command, char **array_of_paths, int i)
 	return (0);
 }
 
-char	*parse_and_execute(char *argv, char **envp)
+char	*parse_and_execute(char *command, char **envp)
 {
-	char	**array_of_cmd;
+	char	**cmd_parts_array;
 	char	*path_and_cmd;
 	char	**array_of_paths;
+	char	*base_command;
 
-	array_of_cmd = split_command(argv);
+	cmd_parts_array = split_command(command);
 	array_of_paths = ft_split(envp[find_path(envp)] + 5, ':');
 	if (array_of_paths == NULL)
 	{
-		free_str(array_of_paths);
-		exit (EXIT_FAILURE);
+		free_str(cmd_parts_array);// Free cmd_parts_array if array_of_paths is NULL coz
+		exit (EXIT_FAILURE);//we are exiting and wont be using the array_of cmd
 	}
-	path_and_cmd = join_cmd_to_path(array_of_cmd[0], array_of_paths, 0);
+	base_command = is_absolute_path(cmd_parts_array[0]);
+	path_and_cmd = join_cmd_to_path(base_command, array_of_paths, 0);
 	if (!path_and_cmd)
-		cmd_not_found(array_of_cmd);
-	if (path_and_cmd != NULL && array_of_cmd != NULL)
-		execve(path_and_cmd, array_of_cmd, envp);
+	{
+		free_str(array_of_paths);
+		cmd_not_found(cmd_parts_array);
+	}
+	if (path_and_cmd != NULL && cmd_parts_array != NULL)
+		execve(path_and_cmd, cmd_parts_array, envp);
 	free(path_and_cmd);
-	free_str(array_of_cmd);
+	free_str(cmd_parts_array);
 	exit(EXIT_FAILURE);
 }
