@@ -142,7 +142,23 @@ envp is a pointer to an array of strings (char **), where each string represents
 Accessing envp in your program:\
 Even though you may not explicitly pass environment variables when running your program, envp is still provided by the operating system.
 You can use envp within your program to access and manipulate environment variables if needed.
-   
+
+This is what it looks like:
+``` c
+char *envp[] = {
+    "SHELL=/bin/bash",
+    "USER=johndoe",
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "PWD=/home/johndoe",
+    "HOME=/home/johndoe",
+    "LOGNAME=johndoe",
+    "LANG=en_US.UTF-8",
+    "TERM=xterm-256color",
+    "DISPLAY=:0",
+    "EDITOR=vim",
+    NULL
+};
+```
 10. pipe
    ``` c
    #include <unistd.h>
