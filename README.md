@@ -4,7 +4,7 @@
 **How the pipe is made?**
 
 **Visual Summary**\
-Input File -> command1 (run by write2pipe_4m_input) -> Pipe -> command2 (run by write2out_4m_pipe) -> Output File
+Input File -> command1 -> Pipe -> command2 -> Output File
 
 **Simplified Summary**\
 write2pipe_4m_input runs command1 and sends its output into a pipe.
