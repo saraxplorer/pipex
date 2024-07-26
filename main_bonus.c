@@ -20,17 +20,19 @@ int	**make_pipes(int argc)
 
 	number_pipes = argc - 4;//remove program name, input and output files, and one arg for pipe
 	//To connect n commands, you need n - 1 pipes, reduce one arg
-	array_fd = (int **)malloc((number_pipes) * sizeof(int *));
+	array_fd = (int **)malloc((number_pipes) * sizeof(int *));// Allocate memory for an array of int pointers
 	if (array_fd == NULL)
 		return (NULL);
 	i = 0;
-	while (i < number_pipes)
+	while (i < number_pipes)//doing the following in a loop so making number_pipes number of twins
 	{
-		array_fd[i] = (int *)malloc(2 * sizeof (int));
+		array_fd[i] = (int *)malloc(2 * sizeof (int));// Create a pipe and store the file descriptors in array_fd[i]
 		if (array_fd[i] == NULL)
 			return (NULL);
 		i++;
 	}
+	// array_fd[i][0] is the file descriptor for the read end of the pipe
+		// array_fd[i][1] is the file descriptor for the write end of the pipe
 	i = 0;
 	while (i < number_pipes)
 	{
@@ -40,6 +42,9 @@ int	**make_pipes(int argc)
 	}
 	return (array_fd);
 }
+//The two integers in each array_fd[i] represent the file descriptors for the read and write ends of a pipe created using the pipe system call.
+//pipe(array_fd[i]) creates a pipe and stores the file descriptors in the array array_fd[i].
+//So, each array_fd[i] is an array of two integers: [read_fd, write_fd].
 
 void	free_fd(int **array_fd, int argc)
 {
