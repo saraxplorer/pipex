@@ -50,11 +50,13 @@ void	free_fd(int **array_fd, int argc)
 	i = 0;
 	while (i < number_pipe)
 	{
-		free(array_fd[i]);
+		free(array_fd[i]);// Free each individual pipe (array of two ints)
 		i++;
-	}
-	free(array_fd);
+	}//This loop iterates through each element of array_fd (which are pointers to arrays of two integers) and frees them.
+	free(array_fd);//// Free the array of pointers itself
+
 }
+//free_fd is freeing both array_fd and array_fd[i]. 
 
 int	fork_pipe(t_pipexb pipex)
 {
@@ -65,7 +67,7 @@ int	fork_pipe(t_pipexb pipex)
 	command_index = 2;
 	pipe_index = 0;
 	while (command_index < (pipex.argc - 1))
-	{
+	{This loop iterates through each element of array_fd (which are pointers to arrays of two integers) and frees them.
 		process = fork();
 		if (process == -1)
 			return (1);
@@ -115,6 +117,6 @@ int	main(int argc, char **argv, char **envp)
 			handle_cleanup(pipex.array_fd, pipex);
 		if (fork_pipe(pipex) == 1)
 			handle_cleanup(pipex.array_fd, pipex);
-	}
+	}This loop iterates through each element of array_fd (which are pointers to arrays of two integers) and frees them.
 }
 
