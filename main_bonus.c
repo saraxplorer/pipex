@@ -69,10 +69,10 @@ int	fork_pipe(t_pipexb pipex)
 	int		command_index;
 	int		pipe_index;
 
-	command_index = 2;
+	command_index = 2;// Start at the first command (skip program name and input file)
 	pipe_index = 0;
-	while (command_index < (pipex.argc - 1))
-	{This loop iterates through each element of array_fd (which are pointers to arrays of two integers) and frees them.
+	while (command_index < (pipex.argc - 1))// Loop through each command except the last one(output file)  beginning from argv[2](first command)
+	{
 		process = fork();
 		if (process == -1)
 			return (1);
@@ -86,8 +86,8 @@ int	fork_pipe(t_pipexb pipex)
 	close(pipex.input_fd);
 	close(pipex.out_fd);
 	waitpid(process, &pipex.status, 0);
-	if (WIFEXITED(pipex.status))
-		exit(WEXITSTATUS(pipex.status));
+	if (WIFEXITED(pipex.status)) // If the child terminated normally
+		exit(WEXITSTATUS(pipex.status));// Exit with the child's exit status
 	return (0);
 }
 
