@@ -6,11 +6,6 @@
 **Visual Summary**\
 Input File -> command1 -> Pipe -> command2 -> Output File
 
-**Simplified Summary**\
-write2pipe_4m_input runs command1 and sends its output into a pipe.
-write2out_4m_pipe runs command2 using the output from the pipe.
-make_pipe sets up the pipe and ensures that these two processes work together to achieve the pipeline effect.
-
 In my source code:
 
 **write2pipe_4m_input:**
@@ -26,6 +21,11 @@ Takes input from the read end of the pipe (pipefd[0]).\
 Writes the output of the second command to the specified output file.
 
 Together, these functions set up a pipeline where the output of the first command (argv[2]) is passed through the pipe to become the input of the second command (argv[3]). This allows you to chain commands together in a manner similar to how pipes work in a shell.
+
+**Simplified Summary**\
+write2pipe_4m_input runs command1 and sends its output into a pipe.
+write2out_4m_pipe runs command2 using the output from the pipe.
+make_pipe sets up the pipe and ensures that these two processes work together to achieve the pipeline effect.
 
 
 **PATHS**
