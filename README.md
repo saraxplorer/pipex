@@ -1,106 +1,6 @@
 # Concepts used in the project
 **-Parent process:** The parent process is the original process running the main function. Here it will be ./pipex
 
-**How the pipe is made?**
-
-**Visual Summary**\
-Input File -> command1 -> Pipe -> command2 -> Output File
-
-In my source code:
-
-**write2pipe_4m_input:**
-
-Executes the first command with argv[2].\
-Takes input from the specified input file.\
-Writes the output of the first command to the write end of the pipe (pipefd[1]).
-
-**write2out_4m_pipe:**
-
-Executes the second command with argv[3].\
-Takes input from the read end of the pipe (pipefd[0]).\
-Writes the output of the second command to the specified output file.
-
-Together, these functions set up a pipeline where the output of the first command (argv[2]) is passed through the pipe to become the input of the second command (argv[3]). This allows you to chain commands together in a manner similar to how pipes work in a shell.
-
-**Simplified Summary**\
-write2pipe_4m_input runs command1 and sends its output into a pipe.
-write2out_4m_pipe runs command2 using the output from the pipe.
-make_pipe sets up the pipe and ensures that these two processes work together to achieve the pipeline effect.
-
-
-**PATHS**
-An absolute path and a relative path are terms used to describe the location of a file or directory in a file system:
-
-Absolute Path:
-
-Defines the location of a file or directory starting from the root of the file system.
-Always begins with the root directory marker (/ on Unix-like systems or a drive letter like C:\ on Windows).
-Provides a complete path from the root to the specific file or directory.
-Example (Unix-like): /home/user/documents/file.txt\
-Absolute Path Example: /home/user/bin/ls
-
-
-Relative Path:
-
-Defines the location of a file or directory relative to the current working directory or another specified directory.
-Does not begin with the root directory marker.
-Used when referring to files or directories within the current directory or its subdirectories.
-Example: documents/file.txt\
-Example: ls
-
-Key Differences:
-
-Starting Point: Absolute paths start from the root of the file system, while relative paths start from the current working directory.
-Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
-Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
-
- **We need this for parsing the envp**
-
-This function helps locate an executable command in a list of directories, even if the command is provided as an absolute path.
-
-### Example Scenario ### Visual Summary
-
-**Command**: `/usr/bin/ls`  
-**Array of Paths**: `["/bin", "/usr/bin", "/usr/local/bin"]`
-
-### Step-by-Step Explanation
-
-1. **Check if Command is an Absolute Path**:
-   - The function first checks if the command starts with `/`, indicating it's an absolute path.
-   - For `/usr/bin/ls`, it isolates the command name by extracting the part after the last `/`.
-   - **Result**: `command` becomes `/ls`.
-
-2. **Construct Potential Paths**:
-   - The function iterates through each directory in the `array_of_paths` and constructs possible paths by combining the directory with the isolated command name.
-   - Example construction:
-     - For `/bin`, it creates `/bin/ls`.
-     - For `/usr/bin`, it creates `/usr/bin/ls`.
-     - For `/usr/local/bin`, it creates `/usr/local/bin/ls`.
-
-3. **Check Each Path**:
-   - Each constructed path is checked to see if it exists and is executable.
-   - If `/usr/bin/ls` exists and is executable, this path is returned.
-
-4. **Handle Allocation Failures**:
-   - If memory allocation fails at any point, the function frees any allocated memory and returns `NULL`.
-
-
-
-
-
-**Exit Status Codes**
-
-*exit(EXIT_SUCCESS):*\
-Indicates successful execution.\
-Equivalent to exit(0).\
-
-*exit(EXIT_FAILURE):*\
-Indicates an error occurred.\
-Equivalent to exit(1).
-
-*exit(127):*\
-Typically used to indicate "command not found" in shell scripts.\
-In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.
 
 1. fork
     ```c
@@ -324,6 +224,108 @@ WEXITSTATUS(status)\
 Purpose: This macro extracts the exit status of the child process. This is the value that the child process passed to exit or returned from main.\
 Usage: It also takes the status variable as an argument and returns the exit status of the child process.\
 Example: If the child process called exit(5);, then WEXITSTATUS(status) would return 5.\
+
+**How the pipe is made?**
+
+**Visual Summary**\
+Input File -> command1 -> Pipe -> command2 -> Output File
+
+In my source code:
+
+**write2pipe_4m_input:**
+
+Executes the first command with argv[2].\
+Takes input from the specified input file.\
+Writes the output of the first command to the write end of the pipe (pipefd[1]).
+
+**write2out_4m_pipe:**
+
+Executes the second command with argv[3].\
+Takes input from the read end of the pipe (pipefd[0]).\
+Writes the output of the second command to the specified output file.
+
+Together, these functions set up a pipeline where the output of the first command (argv[2]) is passed through the pipe to become the input of the second command (argv[3]). This allows you to chain commands together in a manner similar to how pipes work in a shell.
+
+**Simplified Summary**\
+write2pipe_4m_input runs command1 and sends its output into a pipe.
+write2out_4m_pipe runs command2 using the output from the pipe.
+make_pipe sets up the pipe and ensures that these two processes work together to achieve the pipeline effect.
+
+
+**PATHS**
+An absolute path and a relative path are terms used to describe the location of a file or directory in a file system:
+
+Absolute Path:
+
+Defines the location of a file or directory starting from the root of the file system.
+Always begins with the root directory marker (/ on Unix-like systems or a drive letter like C:\ on Windows).
+Provides a complete path from the root to the specific file or directory.
+Example (Unix-like): /home/user/documents/file.txt\
+Absolute Path Example: /home/user/bin/ls
+
+
+Relative Path:
+
+Defines the location of a file or directory relative to the current working directory or another specified directory.
+Does not begin with the root directory marker.
+Used when referring to files or directories within the current directory or its subdirectories.
+Example: documents/file.txt\
+Example: ls
+
+Key Differences:
+
+Starting Point: Absolute paths start from the root of the file system, while relative paths start from the current working directory.
+Usage: Absolute paths are useful when you need to specify an exact location in the file system, regardless of the current working directory. Relative paths are used when referring to files or directories relative to the current context.
+Understanding these distinctions helps in navigating and referencing files and directories effectively within a file system.
+
+ **We need this for parsing the envp**
+
+This function helps locate an executable command in a list of directories, even if the command is provided as an absolute path.
+
+### Example Scenario ### Visual Summary
+
+**Command**: `/usr/bin/ls`  
+**Array of Paths**: `["/bin", "/usr/bin", "/usr/local/bin"]`
+
+### Step-by-Step Explanation
+
+1. **Check if Command is an Absolute Path**:
+   - The function first checks if the command starts with `/`, indicating it's an absolute path.
+   - For `/usr/bin/ls`, it isolates the command name by extracting the part after the last `/`.
+   - **Result**: `command` becomes `/ls`.
+
+2. **Construct Potential Paths**:
+   - The function iterates through each directory in the `array_of_paths` and constructs possible paths by combining the directory with the isolated command name.
+   - Example construction:
+     - For `/bin`, it creates `/bin/ls`.
+     - For `/usr/bin`, it creates `/usr/bin/ls`.
+     - For `/usr/local/bin`, it creates `/usr/local/bin/ls`.
+
+3. **Check Each Path**:
+   - Each constructed path is checked to see if it exists and is executable.
+   - If `/usr/bin/ls` exists and is executable, this path is returned.
+
+4. **Handle Allocation Failures**:
+   - If memory allocation fails at any point, the function frees any allocated memory and returns `NULL`.
+
+
+
+
+
+**Exit Status Codes**
+
+*exit(EXIT_SUCCESS):*\
+Indicates successful execution.\
+Equivalent to exit(0).\
+
+*exit(EXIT_FAILURE):*\
+Indicates an error occurred.\
+Equivalent to exit(1).
+
+*exit(127):*\
+Typically used to indicate "command not found" in shell scripts.\
+In the context of C, it's usually not used directly, but might indicate a critical error or invalid command in some programs.
+
 # Tests for pipex
 from subject:  ./pipex infile "ls -l" "wc -l" outfile\
 Should behave like: < infile ls -l | wc -l > outfile\
