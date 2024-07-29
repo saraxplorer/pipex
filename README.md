@@ -366,8 +366,16 @@ cat outputs the content of infile, and tr 'a-z' 'A-Z' converts lowercase letters
 
 # Some Fixes
 
+1. **Should execute if the command is an executable like "./pipex"**
+
 ![mine vs bash](https://github.com/user-attachments/assets/f0630de3-5add-4e19-a21b-f5c9cc909458)
 
 it needs to behave like bash. the first one is mine and the second one is bash.
+
+
+2. **Pipex Should Not Rely Solely on PATH for Command Search**\
+  The pipex program should not search for commands only in the "PATH" because NOT all commands are located in directories listed in the PATH. While most commands are, absolute paths are outside of the PATH. Therefore, pipex cannot find commands specified with absolute paths or executables located outside the PATH if it only looks inside the PATH
+
+
 
 
