@@ -364,4 +364,10 @@ $ ./pipex infile "cat" "tr 'a-z' 'A-Z'" outfile
 ```
 cat outputs the content of infile, and tr 'a-z' 'A-Z' converts lowercase letters to uppercase.\
 
+# Some Fixes
+
+![mine vs bash](https://github.com/user-attachments/assets/f0630de3-5add-4e19-a21b-f5c9cc909458)
+
+it needs to behave like bash. the first one is mine and the second one is bash.
+
 
