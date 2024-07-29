@@ -374,7 +374,7 @@ it needs to behave like bash
   The pipex program should not search for commands only in the "PATH" because NOT all commands are located in directories listed in the PATH. While most commands are, absolute paths are outside of the PATH. Therefore, pipex cannot find commands specified with absolute paths or executables located outside the PATH if it only looks inside the PATH
 So when we do unset PATH(removes the PATH environment variable from the current shell session), it should execute the part that is ouside of path.
 
-3. **Behavior of debugging messages in pipex**
+3. **Behavior of debugging messages in pipex**\
    The debugging messages for this project will not ne shown in the stdout as soon as we dup2 it to the pipe. So before that the messages come in the stdout, then they are redirected to the output file. However, the input commands can also affect the view of them. One of the commands that allow the debugging messages in the output file is\
     ./pipex input "./pipex" "cat -e" out
 
