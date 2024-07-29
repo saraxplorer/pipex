@@ -377,11 +377,6 @@ it needs to behave like bash. the first one is mine and the second one is bash.
   The pipex program should not search for commands only in the "PATH" because NOT all commands are located in directories listed in the PATH. While most commands are, absolute paths are outside of the PATH. Therefore, pipex cannot find commands specified with absolute paths or executables located outside the PATH if it only looks inside the PATH
 So when we do unset PATH(removes the PATH environment variable from the current shell session), it should execute the part that is ouside of path.
 
-![Screenshot from 2024-07-29 14-05-33](https://github.com/user-attachments/assets/c86a1107-a3a3-428b-9441-b27fe68bf68b)
-
-
-Should behave like the bottom one where the output of ls in the output file(out10).![Screenshot from 2024-07-29 14-05-51](https://github.com/user-attachments/assets/ce5d5b8c-c9b5-40d5-87da-86df5d8f644d)
-
 
 
 
